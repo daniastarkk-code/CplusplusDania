@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source1.cpp">
+    <ClCompile Include="04_enum_hookles.cpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
