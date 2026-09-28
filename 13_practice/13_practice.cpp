@@ -78,7 +78,7 @@ int main()
 	ShowArray(arr, size);
 
 	deleteLast(arr, size);
-	cout << "After delete last: ";
+	cout << "After delete last element: ";
 	ShowArray(arr, size);
 
 	putOnPosition(arr, size, 2, 99);
