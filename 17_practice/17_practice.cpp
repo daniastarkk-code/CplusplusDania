@@ -127,6 +127,27 @@ void DeleteBookByName(Book* films, int size, char name[])
     }
 }
 
+void SaveToFile(const char* filename, Book* films, int size)
+{
+    ofstream fout(filename, ios::binary);
+    if (!fout.is_open()) return;
+
+    fout.write((char*)&size, sizeof(size));
+    fout.write((char*)films, sizeof(Book) * size);
+    fout.close();
+}
+
+bool LoadFromFile(const char* filename, Book* films, int& size)
+{
+    ifstream fin(filename, ios::binary);
+    if (!fin.is_open()) return false;
+
+    fin.read((char*)&size, sizeof(size));
+    fin.read((char*)films, sizeof(Book) * size);
+    fin.close();
+    return true;
+}
+
 int main()
 {
     int size = 10;
@@ -160,6 +181,8 @@ int main()
         cout << "Change data about book   [6]" << endl;
         cout << "Add new book             [7]" << endl;
         cout << "Delete book by name      [8]" << endl;
+		cout << "Save library to file     [9]" << endl;
+		cout << "Load library from file   [10]" << endl;
         cout << "Exit                     [0]" << endl;
         cout << "Your choice: ";
         cin >> choice;
@@ -277,7 +300,28 @@ int main()
             cout << "\n[-] Book deleted successfully!\n";
             break;
         }
-
+        case 9:
+            SaveToFile("library.dat", library, size);
+            cout << "\n[+] Library saved to file successfully!\n";
+			break;
+        case 10:
+            if (LoadFromFile("library.dat", library, size))
+            {
+                cout << "\n[+] Colection was loaded from file!\n";
+                cout << "\n------------------------------------------------------------------------------------------------------\n";
+                cout << "| Name                   | Author               | Publisher              | Genre          | Year   | Price    |\n";
+                cout << "------------------------------------------------------------------------------------------------------\n";
+                for (int i = 0; i < size; i++)
+                {
+                    ShowLIbrary(library[i]);
+                }
+                cout << "------------------------------------------------------------------------------------------------------\n";
+            }
+            else
+            {
+                cout << "\n[!] Error opening file!\n";
+            }
+            break;
         case 0:
             cout << "\nExiting...\n";
             break;
@@ -296,20 +340,6 @@ int main()
     } while (choice != 0);
 
 
-    ofstream outLibrary;
-	outLibrary.open("Library.txt", ios_base::out);
-	outLibrary.close();
-	char buffer[255];
-    ifstream inLibrary;
-	inLibrary.open("Library.txt", ios_base::in);
-    if (inLibrary.is_open())
-    {
-        while (!inLibrary.eof())
-        {
-            inLibrary.getline(buffer, 255);
-            cout << buffer << endl;
-		}
-    }
-    inLibrary >> buffer;
-	inLibrary.close();
+	SaveToFile("library.dat", library, size);
+	LoadFromFile("library.dat", library, size);
 }

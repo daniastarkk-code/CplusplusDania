@@ -26,4 +26,17 @@ int main()
     }
 
     file.close();
+
+    ifstream inFile("File1.txt");
+    if (!inFile.is_open()) {
+        cout << "File does not exist or cannot be opened.\n";
+        return 1;
+    }
+
+    char ch;
+    while (inFile.get(ch)) {
+        cout << ch;
+    }
+
+    inFile.close();
 }
